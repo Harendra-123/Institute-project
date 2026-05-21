@@ -1,0 +1,13 @@
+com\example\irp\repository\UserRepository.class
+com\example\irp\controller\ResourceController.class
+com\example\irp\controller\SearchController.class
+com\example\irp\repository\ResourceRepository.class
+com\example\irp\repository\SearchRepository.class
+com\example\irp\controller\AdminController.class
+com\example\irp\entity\Allocation.class
+com\example\irp\repository\AllocationRepository.class
+com\example\irp\controller\UserController.class
+com\example\irp\InstituteResourcePlannerApplication.class
+com\example\irp\controller\AuthController.class
+com\example\irp\entity\Resource.class
+com\example\irp\entity\User.class

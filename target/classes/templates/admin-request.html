@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Allocation Requests | Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --sidebar-bg: #0f172a;
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0369a1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-body); display: flex; min-height: 100vh; color: var(--text-main); }
+
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 30px 20px; position: fixed; height: 100vh; display: flex; flex-direction: column; z-index: 100; }
+        .sidebar-brand { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
+        .sidebar-subtitle { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 40px; }
+        .menu { flex-grow: 1; }
+        .menu a { display: flex; align-items: center; padding: 12px 15px; margin-bottom: 8px; color: #94a3b8; text-decoration: none; border-radius: 10px; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+        .menu a:hover { color: white; background: rgba(255, 255, 255, 0.05); }
+        .menu a.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+        .admin-profile { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center; }
+        .admin-name { font-size: 14px; font-weight: 600; color: white; }
+        .logout-btn { width: 100%; padding: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .logout-btn:hover { background: var(--danger); color: white; }
+
+        .main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); }
+        .header-section { margin-bottom: 35px; }
+        .header-section h1 { font-size: 28px; font-weight: 700; color: #0f172a; }
+        .table-container { background: white; padding: 25px; border-radius: 16px; box-shadow: var(--card-shadow); border: 1px solid #f1f5f9; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); text-align: left; border-bottom: 2px solid #edf2f7; }
+        td { padding: 16px; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
+
+        .status { padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .approved { background: #dcfce7; color: #166534; }
+        .pending { background: #fef3c7; color: #d97706; }
+        .rejected { background: #fee2e2; color: #991b1b; }
+        .pending-delivery { background: #e0f2fe; color: var(--info); }
+
+        .btn { padding: 8px 14px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .approve { background: #22c55e; color: white; }
+        .reject { background: #ef4444; color: white; }
+    </style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="sidebar-brand">Institute RP</div>
+    <div class="sidebar-subtitle">Admin Control Center</div>
+    <nav class="menu">
+        <a href="/admin/dashboard">📊 Dashboard</a>
+        <a href="/admin/dashboardmain">📦 Resources</a>
+        <a class="active" href="/admin/admin-request">📩 Requests</a>
+    </nav>
+    <div class="admin-profile">
+        <div class="admin-name" th:text="${username}">Administrator</div>
+    </div>
+    <form action="/logout" method="get"><button class="logout-btn">System Logout</button></form>
+</aside>
+
+<main class="main">
+    <div class="header-section">
+        <h1>All Allocation Requests</h1>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr><th>User Name</th><th>Resource ID</th><th>Resource Name</th><th>Qty</th><th>Date & Time</th><th>Reason</th><th>Status</th><th style="text-align: center;">Action</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="a : ${requests}">
+                <td th:text="${a.userName}" style="font-weight:600;"></td>
+                <td th:text="${a.resourceId}"></td>
+                <td th:text="${a.resourceName}"></td>
+                <td th:text="${a.quantity}"></td>
+                <td th:text="${a.dateTime}"></td>
+                <td th:text="${a.reason}"></td>
+                <td>
+                    <span th:text="${a.status}"
+                          th:classappend="
+                            ${a.status == 'Approved' || a.status == 'APPROVED'} ? 'status approved' :
+                            (${a.status == 'Rejected' || a.status == 'REJECTED'} ? 'status rejected' :
+                            (${a.status == 'APPROVED_PENDING_DELIVERY'} ? 'status pending-delivery' : 'status pending'))">
+                    </span>
+                </td>
+                <td style="text-align: center;">
+                    <div th:if="${a.status == 'Pending' || a.status == 'PENDING'}" style="display: flex; gap: 6px; justify-content: center;">
+                        <form th:action="@{/admin/request/approve}" method="POST" style="margin: 0;">
+                            <input type="hidden" name="id" th:value="${a.id}" />
+                            <button type="submit" class="btn approve">Approve</button>
+                        </form>
+                        <form th:action="@{/admin/request/reject}" method="POST" style="margin: 0;">
+                            <input type="hidden" name="id" th:value="${a.id}" />
+                            <button type="submit" class="btn reject">Reject</button>
+                        </form>
+                    </div>
+                    <div th:if="${a.status == 'APPROVED_PENDING_DELIVERY'}">
+                        <span style="color: var(--info); font-size: 12px; font-weight: 600;">Waiting for User</span>
+                    </div>
+                    <div th:if="${a.status != 'Pending' && a.status != 'PENDING' && a.status != 'APPROVED_PENDING_DELIVERY'}">
+                        <span style="color: var(--text-muted); font-size: 13px; font-style: italic;">No Action Required</span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

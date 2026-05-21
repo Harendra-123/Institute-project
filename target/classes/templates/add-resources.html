@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Resource</title>
+
+    <style>
+
+        *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+        min-height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#1e3a8a,#06b6d4);
+        padding:20px;
+        }
+
+        /* Card */
+        .card{
+        background:white;
+        padding:35px;
+        width:420px;
+        max-width:100%;
+        border-radius:14px;
+        box-shadow:0 12px 35px rgba(0,0,0,0.25);
+        animation:fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn{
+        from{
+        opacity:0;
+        transform:translateY(20px);
+        }
+        to{
+        opacity:1;
+        transform:translateY(0);
+        }
+        }
+
+        h2{
+        text-align:center;
+        margin-bottom:20px;
+        color:#111827;
+        }
+
+        /* Inputs */
+        input, select{
+        width:100%;
+        padding:12px;
+        margin-top:12px;
+        border:1px solid #d1d5db;
+        border-radius:8px;
+        font-size:14px;
+        transition:0.2s;
+        }
+
+        input:focus, select:focus{
+        outline:none;
+        border-color:#2563eb;
+        box-shadow:0 0 0 2px rgba(37,99,235,0.15);
+        }
+
+        /* Button */
+        button{
+        width:100%;
+        padding:12px;
+        margin-top:18px;
+        background:#2563eb;
+        color:white;
+        border:none;
+        border-radius:8px;
+        font-size:15px;
+        font-weight:600;
+        cursor:pointer;
+        transition:0.2s;
+        }
+
+        button:hover{
+        background:#1e40af;
+        }
+
+        /* Mobile */
+        @media(max-width:500px){
+        .card{
+        padding:25px;
+        }
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="card">
+
+    <h2>Add Resource</h2>
+
+    <form action="/admin/add-resources" method="post">
+
+        <input type="text" name="resource_name" placeholder="Resource Name" required>
+
+        <input type="text" name="type" placeholder="Resource Type" required>
+
+        <input type="number" name="quantity" placeholder="Quantity" required>
+
+        <select name="status">
+            <option value="Available">Available</option>
+<!--            <option value="Not Available">Not Available</option>-->
+            <option value="Maintenance">Maintenance</option>>
+        </select>
+
+        <input type="text" name="location" placeholder="Location" required>
+
+        <button type="submit">Add Resource</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
+
+
+
+
+
+

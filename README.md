@@ -1,1 +1,1 @@
-# Institute Resource Planner 
+# InstituteResoursePlannner

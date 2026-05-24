@@ -27,7 +27,7 @@ public class EmailService {
             helper.setTo(toEmail);
             helper.setSubject("Action Required: Please Confirm Receipt of " + resourceName);
 
-            String baseUrl = "http://localhost:8080/user/verify/";
+            String baseUrl = "https://institute-project-production.up.railway.app/user/verify/";
 //            // EmailService.java mein change karein
 //// Purana: String baseUrl = "http://localhost:8080/user/verify/";
 //// Naya (Example):
